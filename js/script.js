@@ -1,8 +1,12 @@
 const modal = document.getElementById('modal');
 const close = document.getElementsByClassName('close')[0];
-
 const api = 'https://restcountries.eu/rest/v2/all';
 let paises = [];
+
+const search = async (text) => {
+  const response = await fetch(`https://restcountries.eu/rest/v2/name/${text}`);
+  return response.json();
+};
 
 function detailCountries(pais) {
   modal.style.display = 'block';
@@ -82,3 +86,10 @@ window.onclick = (event) => {
     modal.style.display = 'none';
   }
 };
+
+const inpSearch = document.getElementById('_search');
+inpSearch.addEventListener('keyup', async (event) => {
+  event.preventDefault();
+  const countries = await search(inpSearch.value);
+  init(countries);
+});
